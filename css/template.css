@@ -1,0 +1,30 @@
+body {
+  padding-top: 2.5rem;
+}
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: left;
+}
+
+.texto {
+  font-size: 18px;
+  font-family: Courier, "Courier New", courier;
+}
+
+.texto-rm {
+  font-size: 18px;
+  font-family: Courier, "Courier New", courier;
+  color: red;
+}
+
+img {
+  width: 150px;
+  height: 150px;
+  object-fit: fill;
+}
+
+.img-foto {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
