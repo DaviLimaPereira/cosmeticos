@@ -4,4 +4,4 @@
   $requestUri = $_SERVER['REQUEST_URI'];
 
   $router = new Router;
-  $router->run($requetUri);
+  $router->run($requestUri);

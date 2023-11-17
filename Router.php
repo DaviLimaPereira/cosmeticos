@@ -5,7 +5,7 @@
     public function run(string $requestUri) {
       $route = substr($requestUri, 1);
       if($route === '') {
-        $this->home()
+        $this->home();
       } else {
         $this->$route();
       }
