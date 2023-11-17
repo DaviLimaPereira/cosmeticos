@@ -1,1 +1,27 @@
 <!-- apresentar informaçoes sobre o projeto e link para verificar as informações das empresas parceiras. -->
+<?php 
+  //carrega o arquivo de configuração com as variaveis pre-definidas
+  include_once './config.php';
+
+  //atribui o valor para variavel que exibira o titulo da pagina
+  $titulo = "Home";
+
+  //atribui o valor para as variaveis que mostraram qual link esta ativo
+  $home = "active";
+
+  //inclui o arquivo 'header.html' com o cabeçalho e o menu
+  include CABECALHO;
+?>
+
+  <h1>Bem Vindo(a)!</h1>
+  <p class="lead">
+    Este é o primeiro esboço do projeto de TCC (Trabalho de Conclusão de Curso) feito em PHP com o objetivo de melhorar o aprendizado e o desenvolvimento de aplicações web.
+  </p>
+  <p class="lead">
+    Sendo um projeto acadêmico, o mesmo não pode ser comercializado. Todas as informações contidas neste projeto foram autorizadas exibição de suas funcionalidades.
+  </p>
+
+<?php 
+  //incui o arquivo 'footer.html' no rodapé da pagina
+  include RODAPE;
+?>

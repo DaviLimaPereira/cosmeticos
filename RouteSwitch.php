@@ -9,6 +9,6 @@
     //rota para pages não encotradas
     protected function __call($name, $arguments){
       http_response_code(404);
-      require __DIR__ . './views/master/404.html';
+      require __DIR__ . './views/master/error.html';
     }
   }
