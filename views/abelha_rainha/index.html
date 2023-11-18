@@ -3,6 +3,9 @@
 <?php
   include_once './config.php';
 
+setlocale(LC_TIME, 'portuguese'); 
+date_default_timezone_set('America/Sao_Paulo');
+
   $titulo = "Abelha Rainha";
 
   $home = "nav-link";
@@ -42,17 +45,79 @@
 <hr>
 <div class="row">
   <div class="col-md-6">
-    <h2>Valores a Receber - Mês: <?php echo date('M')."/".date('Y'); ?></h2>
-    <hr>
-    valores a receber:
+    <h2 align="center">Valores a Receber: 
+      <?php  
+        function gerarMes($mes){
+          switch($mes){
+            case 1:
+              return "Janeiro";
+            case 2:
+              return "Fevereiro";
+            case 3:
+              return "Março";
+            case 4:
+              return "Abril";
+            case 5:
+              return "Maio";
+            case 6:
+              return "Junho";
+            case 7:
+              return "Julho";
+            case 8:
+              return "Agosto";
+            case 9:
+              return "Setembro";
+            case 10:
+              return "Outubro";
+            case 11:
+              return "Novembro";
+            default:
+              return "Dezembro";
+          }
+        }
+        $mes = gerarMes(date('m'));
+      echo $mes . "/" . date('Y'); 
+      ?>
+    </h2>
+    <table class="table table-sm table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr align="center">
+          <th >Vendedor(a)</th>
+          <th >Valor</th>
+          <th >Situação</th>
+          <th >Opção</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+          $xml1 = simplexml_load_file('./views/abelha_rainha/vendasMensais.xml');
+          foreach($xml1->registro as $registro):
+            if((int)$registro->ano == date('Y')){
+              foreach($registro->vendas->venda as $venda):
+                if($venda->mes == $mes){
+                  foreach($venda->vendedores->vendedor as $vendedor):
+                    echo "<tr align='middle'>";
+                    echo "<td>" . $vendedor->nome . "</td>";
+                    echo "<td>" . $vendedor->total_receber . "</td>";
+                    echo "<td>" . $vendedor->pagamento_vendedor . "</td>";
+                    echo "<td><buton type='button' class='btn btn-primary btn-sm'>Mais...</buton></td>";
+                    echo "</tr>";
+                  endforeach;
+                }
+              endforeach;
+            }
+          endforeach;
+        ?>
+      </tbody>
+    </table>
   </div>
   <div class="col-md-6">
-<h2>Vendas realizadas mês a mês</h2>
+<h2 align="center">Vendas realizadas mês a mês</h2>
 <table class="table table-sm table-bordered table-hover">
   <thead class="thead-dark">
     <tr align="center">
       <th >Mês</th>
-      <th ">Valor</th>
+      <th >Valor</th>
       <th >Situação</th>
       <th >Opção</th>
     </tr>

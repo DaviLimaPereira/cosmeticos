@@ -14,3 +14,4 @@ define("MENU", "views/master/menu.html");
 
 //onde esta o rodapé da views
 define("RODAPE", "views/master/footer.html");
+
