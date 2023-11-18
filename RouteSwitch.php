@@ -8,7 +8,7 @@
 
     //rota para a listagem de colaboradoras
     protected function colaboradoras(){
-      require __DIR__ . '/views/colaboradoras/index.html'
+      require __DIR__ . '/views/colaboradoras/index.html';
     }
 
     //rota para a listagem de clientes
@@ -18,7 +18,7 @@
 
     //rota para a page principal relacionada aos cosméticos da Abelha Rainha
     protected function abelhaRainha(){
-      require __DIR__ . '/views/abelha-rainha/index.html';
+      require __DIR__ . '/views/abelha_rainha/index.html';
     }
 
     //rota para a page principal relacionada aos cosméticos da Avon

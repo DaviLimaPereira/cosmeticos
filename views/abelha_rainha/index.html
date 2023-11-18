@@ -1,1 +1,84 @@
 <!-- apresentar as vendas realizadas mes a mes e o valor a receber no mes vigente. -->
+
+<?php
+  include_once './config.php';
+
+  $titulo = "Abelha Rainha";
+
+  $home = "nav-link";
+  $colaboradoras = "nav-link";
+  $clientes = "nav-link";
+
+  include CABECALHO;
+?>
+<h1>Cosméticos Abelha Rainha</h1>
+<hr>
+
+<form class="form-inline" method="POST" action="/abelhaRainha">
+  <div class="form-group col-sm-auto">
+    <p>Selecione o ano:</p>
+  </div>
+  <div class="form-group col-sm-auto">
+    <select class="form-control" name="ano">
+      <?php
+        //crio um array para receber os anos de vendas
+        $anos = [];
+        //crio o objeto $xml com os dados de vendas
+        $xml = simplexml_load_file('./views/abelha_rainha/vendasAnuais.xml');
+        //percooro o objeto $xml atribuindo ao objeto $lista cada registro de venda
+        foreach($xml->registro as $lista):
+          //atribuo o ano ao array
+          $anos[] = $lista->ano;
+        endforeach;
+        //inicio um for para apresentar os anos de tras para frente
+        for($i = count($anos); $i > 0; $i--){
+          echo "<option value='" . $anos[$i-1] . "'>" . $anos[$i-1] . "</option>";
+        }
+      ?>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-success mb-2">Listar</button>
+</form>
+<hr>
+<h2>Vendas realizadas mês a mês</h2>
+<table class="table table-bordered table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th>Mês</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+      if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        $ano = $_POST['ano'];
+        $xml = simplexml_load_file('./views/abelha_rainha/vendasAnuais.xml');
+        foreach($xml->registro as $registro):
+          if((int)$registro->ano == $ano){
+            foreach($registro->vendas->venda as $venda):
+              echo "<tr>";
+              echo "<td>" . $venda->mes . "/" . $ano . "</td>";
+              echo "<td>" . $venda->valor . "</td>";
+              echo "</tr>";
+            endforeach;
+          }
+        endforeach;
+      } else {
+        $ano = date('Y');
+        $xml = simplexml_load_file('./views/abelha_rainha/vendasAnuais.xml');
+        foreach($xml->registro as $registro):
+          if((int)$registro->ano == $ano){
+    foreach($registro->vendas->venda as $venda):
+      echo "<tr>";
+    echo "<td>" . $venda->mes . "/" . $ano . "</td>";
+    echo "<td>" . $venda->valor . "</td>";
+      echo "</tr>";
+    endforeach;
+          }
+        endforeach;
+      }
+    ?>
+  </tbody>
+</table>
+
+<?php include RODAPE; ?>
