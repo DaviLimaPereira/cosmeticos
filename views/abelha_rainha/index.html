@@ -40,12 +40,21 @@
   <button type="submit" class="btn btn-success mb-2">Listar</button>
 </form>
 <hr>
+<div class="row">
+  <div class="col-md-6">
+    <h2>Valores a Receber - Mês: <?php echo date('M')."/".date('Y'); ?></h2>
+    <hr>
+    valores a receber:
+  </div>
+  <div class="col-md-6">
 <h2>Vendas realizadas mês a mês</h2>
-<table class="table table-bordered table-hover">
+<table class="table table-sm table-bordered table-hover">
   <thead class="thead-dark">
-    <tr>
-      <th>Mês</th>
-      <th>Valor</th>
+    <tr align="center">
+      <th >Mês</th>
+      <th ">Valor</th>
+      <th >Situação</th>
+      <th >Opção</th>
     </tr>
   </thead>
   <tbody>
@@ -56,9 +65,15 @@
         foreach($xml->registro as $registro):
           if((int)$registro->ano == $ano){
             foreach($registro->vendas->venda as $venda):
-              echo "<tr>";
+              echo "<tr align='middle'>";
               echo "<td>" . $venda->mes . "/" . $ano . "</td>";
               echo "<td>" . $venda->valor . "</td>";
+                if($venda->situacao == "PENDENTE"){
+                  echo "<td class='bg-warning text-white'><em><strong>" . $venda->situacao . "</strong></em></td>";
+                } else {
+                  echo "<td class='bg-success text-white'><em><strong>" . $venda->situacao . "</strong></em></td>";
+                }
+              echo "<td><buton type='button' class='btn btn-primary btn-sm'>Mais...</buton></td>";
               echo "</tr>";
             endforeach;
           }
@@ -69,9 +84,15 @@
         foreach($xml->registro as $registro):
           if((int)$registro->ano == $ano){
     foreach($registro->vendas->venda as $venda):
-      echo "<tr>";
+      echo "<tr align='middle'>";
     echo "<td>" . $venda->mes . "/" . $ano . "</td>";
     echo "<td>" . $venda->valor . "</td>";
+    if($venda->situacao == "PENDENTE"){
+      echo "<td class='bg-warning text-white'><em><strong>" . $venda->situacao . "</strong></em></td>";
+    } else {
+      echo "<td class='bg-success text-white'><em><strong>" . $venda->situacao . "</strong></em></td>";
+    }
+    echo "<td><buton type='button' class='btn btn-primary btn-sm'>Mais...</buton></td>";
       echo "</tr>";
     endforeach;
           }
@@ -80,5 +101,7 @@
     ?>
   </tbody>
 </table>
-
+  </div>
+ 
+</div>
 <?php include RODAPE; ?>

@@ -6,50 +6,62 @@
       <venda>
         <mes>Janeiro</mes>
         <valor>R$ 120,70</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Fevereiro</mes>
         <valor>R$ 318,07</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Março</mes>
         <valor>R$ 0,00</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Abril</mes>
         <valor>R$ 542,35</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Maio</mes>
         <valor>R$ 725,92</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Junho</mes>
         <valor>R$ 180,51</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Julho</mes>
         <valor>R$ 487,03</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Agosto</mes>
         <valor>R$ 464,89</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Setembro</mes>
         <valor>R$ 232,77</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Outubro</mes>
         <valor>R$ 242,20</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Novembro</mes>
         <valor>R$ 306,95</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Dezembro</mes>
         <valor>R$ 129,14</valor>
+        <situacao>OK</situacao>
       </venda>
     </vendas>
   </registro>
@@ -59,42 +71,52 @@
       <venda>
         <mes>Janeiro</mes>
         <valor>R$ 280,64</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Fevereiro</mes>
         <valor>R$ 529,50</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Março</mes>
         <valor>R$ 753,15</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Abril</mes>
         <valor>R$ 703,02</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Maio</mes>
         <valor>R$ 75,94</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Junho</mes>
         <valor>R$ 0,00</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Julho</mes>
         <valor>R$ 185,83</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Agosto</mes>
         <valor>R$ 290,03</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Setembro</mes>
         <valor>R$ 366,15</valor>
+        <situacao>OK</situacao>
       </venda>
       <venda>
         <mes>Outubro</mes>
         <valor>R$ 103,78</valor>
+        <situacao>PENDENTE</situacao>
       </venda>
     </vendas>
   </registro>
