@@ -1,0 +1,19 @@
+<!-- Cadastrar um novo pedido -->
+<?php
+  include_once './config.php';
+
+setlocale(LC_TIME, 'portuguese'); 
+date_default_timezone_set('America/Sao_Paulo');
+
+  $titulo = "Abelha Rainha";
+
+  $home = "nav-link";
+  $colaboradoras = "nav-link";
+  $clientes = "nav-link";
+
+  include CABECALHO;
+?>
+<h1>Cosméticos Abelha Rainha - Novo Pedido</h1>
+<hr>
+
+<?= include RODAPE; ?>

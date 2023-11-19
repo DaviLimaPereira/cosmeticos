@@ -3,9 +3,6 @@
 <?php
   include_once './config.php';
 
-setlocale(LC_TIME, 'portuguese'); 
-date_default_timezone_set('America/Sao_Paulo');
-
   $titulo = "Abelha Rainha";
 
   $home = "nav-link";
@@ -14,7 +11,14 @@ date_default_timezone_set('America/Sao_Paulo');
 
   include CABECALHO;
 ?>
+<div class="row">
+  <div class="col-sm-auto">
 <h1>Cosméticos Abelha Rainha</h1>
+  </div>
+  <div class="col" align="right">
+    <a href="/novoPedidoAbelhaRainha" class="btn btn-primary" type="button">Cadastrar Pedido</a>
+  </div>
+</div>
 <hr>
 
 <form class="form-inline" method="POST" action="/abelhaRainha">
@@ -27,7 +31,7 @@ date_default_timezone_set('America/Sao_Paulo');
         //crio um array para receber os anos de vendas
         $anos = [];
         //crio o objeto $xml com os dados de vendas
-        $xml = simplexml_load_file('./views/abelha_rainha/vendasAnuais.xml');
+        $xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
         //percooro o objeto $xml atribuindo ao objeto $lista cada registro de venda
         foreach($xml->registro as $lista):
           //atribuo o ano ao array
@@ -90,8 +94,8 @@ date_default_timezone_set('America/Sao_Paulo');
       </thead>
       <tbody>
         <?php
-          $xml1 = simplexml_load_file('./views/abelha_rainha/vendasMensais.xml');
-          foreach($xml1->registro as $registro):
+          $xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
+          foreach($xml->registro as $registro):
             if((int)$registro->ano == date('Y')){
               foreach($registro->vendas->venda as $venda):
                 if($venda->mes == $mes){
@@ -100,7 +104,7 @@ date_default_timezone_set('America/Sao_Paulo');
                     echo "<td>" . $vendedor->nome . "</td>";
                     echo "<td>" . $vendedor->total_receber . "</td>";
                     echo "<td>" . $vendedor->pagamento_vendedor . "</td>";
-                    echo "<td><buton type='button' class='btn btn-primary btn-sm'>Mais...</buton></td>";
+                    echo "<td><button type='button' class='btn btn-primary btn-sm'>Mais...</button></td>";
                     echo "</tr>";
                   endforeach;
                 }
@@ -112,7 +116,11 @@ date_default_timezone_set('America/Sao_Paulo');
     </table>
   </div>
   <div class="col-md-6">
-<h2 align="center">Vendas realizadas mês a mês</h2>
+    <?php
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+      $ano = $_POST['ano'];
+    ?>
+<h2 align="center">Vendas realizadas em <?= $ano; ?></h2>
 <table class="table table-sm table-bordered table-hover">
   <thead class="thead-dark">
     <tr align="center">
@@ -123,41 +131,65 @@ date_default_timezone_set('America/Sao_Paulo');
     </tr>
   </thead>
   <tbody>
-    <?php
-      if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        $ano = $_POST['ano'];
-        $xml = simplexml_load_file('./views/abelha_rainha/vendasAnuais.xml');
+    <?=
+        $xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
         foreach($xml->registro as $registro):
           if((int)$registro->ano == $ano){
             foreach($registro->vendas->venda as $venda):
               echo "<tr align='middle'>";
               echo "<td>" . $venda->mes . "/" . $ano . "</td>";
-              echo "<td>" . $venda->valor . "</td>";
-                if($venda->situacao == "PENDENTE"){
-                  echo "<td class='bg-warning text-white'><em><strong>" . $venda->situacao . "</strong></em></td>";
+              echo "<td>R$ " . $venda->total_vendas . "</td>";
+                if($venda->situacao_venda == "PENDENTE"){
+                  echo "<td class='bg-warning text-white'><em><strong>" . $venda->situacao_venda . "</strong></em></td>";
                 } else {
-                  echo "<td class='bg-success text-white'><em><strong>" . $venda->situacao . "</strong></em></td>";
+                  echo "<td class='bg-success text-white'><em><strong>" . $venda->situacao_venda . "</strong></em></td>";
                 }
-              echo "<td><buton type='button' class='btn btn-primary btn-sm'>Mais...</buton></td>";
+              echo "<td>";
+                echo "<form action='/exibirPedidoAbelhaRainha' method='POST'>";
+                  echo "<input type='hidden' name='mes' value='" .  $venda->mes . "'>";
+                  echo "<input type='hidden' name='ano' value='" . $ano  ."'>";
+                  echo "<button type='submit' class='btn btn-primary btn-sm'>Mais...</button>";
+               echo "</form>";
+              echo "</td>";
               echo "</tr>";
+            
             endforeach;
           }
         endforeach;
       } else {
         $ano = date('Y');
-        $xml = simplexml_load_file('./views/abelha_rainha/vendasAnuais.xml');
+    ?>
+    <h2 align="center">Vendas realizadas em <?= $ano; ?></h2>
+    <table class="table table-sm table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr align="center">
+          <th >Mês</th>
+          <th >Valor</th>
+          <th >Situação</th>
+          <th >Opção</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?=
+        $xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
         foreach($xml->registro as $registro):
           if((int)$registro->ano == $ano){
     foreach($registro->vendas->venda as $venda):
       echo "<tr align='middle'>";
     echo "<td>" . $venda->mes . "/" . $ano . "</td>";
-    echo "<td>" . $venda->valor . "</td>";
-    if($venda->situacao == "PENDENTE"){
-      echo "<td class='bg-warning text-white'><em><strong>" . $venda->situacao . "</strong></em></td>";
+    echo "<td>R$ " . $venda->total_vendas . "</td>";
+    if($venda->situacao_venda == "PENDENTE"){
+      echo "<td class='bg-warning text-white'><em><strong>" . $venda->situacao_venda . "</strong></em></td>";
     } else {
-      echo "<td class='bg-success text-white'><em><strong>" . $venda->situacao . "</strong></em></td>";
+      echo "<td class='bg-success text-white'><em><strong>" . $venda->situacao_venda . "</strong></em></td>";
     }
-    echo "<td><buton type='button' class='btn btn-primary btn-sm'>Mais...</buton></td>";
+        echo "<td>";
+          echo "<form action='/exibirPedidoAbelhaRainha' method='POST'>";
+            echo "<input type='hidden' name='mes' value='" .  $venda->mes . "'>";
+            echo "<input type='hidden' name='ano' value='" . $ano  ."'>";
+            echo "<button type='submit' class='btn btn-primary btn-sm'>Mais...</button>";
+         echo "</form>";
+        echo "</td>";
       echo "</tr>";
     endforeach;
           }
@@ -169,4 +201,4 @@ date_default_timezone_set('America/Sao_Paulo');
   </div>
  
 </div>
-<?php include RODAPE; ?>
+<?= include RODAPE; ?>
