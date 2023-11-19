@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<registros>
-  <registro>
-    <ano>2022</ano>
-  </registro>
-</registros>
+<produtos>
+  <produto>
+    <codigo>0001</codigo>
+    <descricao>teste</descricao>
+    <preco>00,00</preco>
+  </produto>
+</produtos>

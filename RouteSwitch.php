@@ -27,6 +27,16 @@
       require __DIR__ . '/views/abelha_rainha/exibirDetalhes.html';
     }
 
+    //rota para os produtos da Abelha Rainha
+    protected function produtosAbelhaRainha(){
+      require __DIR__ . '/views/abelha_rainha/produtos.html';
+    }
+
+    //rota para os produtos da Abelha Rainha
+    protected function cadastrarProdutosAR(){
+      require __DIR__ . '/views/abelha_rainha/produto.php';
+    }
+
     //--------------------------------------------------------------
     //rota para a page principal relacionada aos cosméticos da Avon
     protected function avon(){
