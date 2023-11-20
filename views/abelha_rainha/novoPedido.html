@@ -2,9 +2,6 @@
 <?php
   include_once './config.php';
 
-setlocale(LC_TIME, 'portuguese'); 
-date_default_timezone_set('America/Sao_Paulo');
-
   $titulo = "Abelha Rainha";
 
   $home = "nav-link";
@@ -18,6 +15,13 @@ $na = "nav-link";
 <h1>Cosméticos Abelha Rainha - Novo Pedido</h1>
 <hr>
 
+<?php
+  if(isset($_POST['saveInfo'])) {
+    $ano = $_POST['ano'];
+    $mes = $_POST['mes'];
+    $vendedor = $_POST['nome_vendedor'];
+    $cliente = $_POST['nome_cliente'];
+?> 
 <form>
   <h2>Dados Vendedor(a) / Cliente</h2>
   <!-- Informações da venda -->
@@ -25,71 +29,105 @@ $na = "nav-link";
     <!-- Selecionar o ano da venda -->
     <div class="form-group col-md-auto">
       Selecione o ano: 
-      <select class="form-control" id="ano" name="ano">
-        <?php
-          for($i = 0; $i < 2; $i++){
-            echo "<option value='" . (date('Y') - $i) . "'>" . (date('Y') - $i) . "</option>";
-          }
-        ?>
-      </select>
+      <input type="text" class="form-control" id="ano" name="ano" value="<?= $ano; ?>" readonly>
     </div>
     
     <!--Selecionar o mês da venda -->
     <div class="form-group col-md-auto">
       Selecione o mês: 
-      <select class="form-control" id="mes" name="mes">
-        <?php
-          function gerarMes($mes){
-            switch($mes){
-              case 1:
-                return "Janeiro";
-              case 2:
-                return "Fevereiro";
-              case 3:
-                return "Março";
-              case 4:
-                return "Abril";
-              case 5:
-                return "Maio";
-              case 6:
-                return "Junho";
-              case 7:
-                return "Julho";
-              case 8:
-                return "Agosto";
-              case 9:
-                return "Setembro";
-              case 10:
-                return "Outubro";
-              case 11:
-                return "Novembro";
-              case 12:
-                return "Dezembro";
-            }
-          }
-          $m = date('m');
-          for($i = 1; $i <= $m; $i++){
-            $mes1 = gerarMes($i);
-            echo "<option value='" . $mes1 . "'>" . $mes1 . "</option>";
-          }
-        ?>
-      </select>
+      <input type="text" class="form-control" id="nome_vendedor" name="nome_vendedor" value="<?= $mes; ?>" readonly>
     </div>
     
     <!-- Digitar o nome do(a) vendedor(a) -->
     <div class="form-group col-md-auto">
       Digite o nome do(a) vendedor(a):
-      <input type="text" class="form-control" id="nome_vendedor" name="nome_vendedor" placeholder="Vendedor(a)">
+      <input type="text" class="form-control" id="nome_vendedor" name="nome_vendedor" value="<?= $vendedor; ?>" readonly>
     </div>
 
     <!-- Digitar o nome do(a) cliente -->
     <div class="form-group col-md-auto">
       Digite o nome do(a) cliente:
-      <input type="text" class="form-control" id="nome_cliente" name="nome_cliente" placeholder="Cliente">
+      <input type="text" class="form-control" id="nome_cliente" name="nome_cliente" value="<?= $cliente; ?>" readonly>
+    </div>
+
+    <div class="form-group col text-rigth align-bottom">
+      <button type="submit" class="form-control btn btn-primary" name="saveInfo">Continuar</button>
     </div>
   </div>
-  
+</form>
+<?php } else { ?>
+  <form method="POST">
+    <h2>Dados Vendedor(a) / Cliente</h2>
+    <!-- Informações da venda -->
+    <div class="form-row">
+      <!-- Selecionar o ano da venda -->
+      <div class="form-group col-md-auto">
+        Selecione o ano: 
+        <input type="text" class="form-control" id="ano" name="ano" value="<?= date('Y'); ?>">
+      </div>
+
+      <!--Selecionar o mês da venda -->
+      <div class="form-group col-md-auto">
+        Selecione o mês: 
+        <select class="form-control" id="mes" name="mes">
+          <?php
+            function gerarMes($mes){
+              switch($mes){
+                case 1:
+                  return "Janeiro";
+                case 2:
+                  return "Fevereiro";
+                case 3:
+                  return "Março";
+                case 4:
+                  return "Abril";
+                case 5:
+                  return "Maio";
+                case 6:
+                  return "Junho";
+                case 7:
+                  return "Julho";
+                case 8:
+                  return "Agosto";
+                case 9:
+                  return "Setembro";
+                case 10:
+                  return "Outubro";
+                case 11:
+                  return "Novembro";
+                case 12:
+                  return "Dezembro";
+              }
+            }
+            $m = date('m');
+            for($i = 1; $i <= $m; $i++){
+              $mes1 = gerarMes($i);
+              echo "<option value='" . $mes1 . "'>" . $mes1 . "</option>";
+            }
+          ?>
+        </select>
+      </div>
+
+      <!-- Digitar o nome do(a) vendedor(a) -->
+      <div class="form-group col-md-auto">
+        Digite o nome do(a) vendedor(a):
+        <input type="text" class="form-control" id="nome_vendedor" name="nome_vendedor" placeholder="Vendedor(a)">
+      </div>
+
+      <!-- Digitar o nome do(a) cliente -->
+      <div class="form-group col-md-auto">
+        Digite o nome do(a) cliente:
+        <input type="text" class="form-control" id="nome_cliente" name="nome_cliente" placeholder="Cliente">
+      </div>
+
+      <div class="form-group col text-rigth align-bottom">
+        <button type="submit" class="form-control btn btn-primary" name="saveInfo">Continuar</button>
+      </div>
+    </div>
+  </form>
+<?php } ?>
   <hr>
+
   <div class="row">
     <div class="col-md-6">
       <h2>Dados do Produto</h2>
@@ -98,19 +136,31 @@ $na = "nav-link";
       <button type="button" class="btn btn-primary" onclick="adicionarProduto()">Adicionar Produto</button>
     </div>
   </div>
-  
+<form>
   <!-- Produtos -->
   <div class="row">
     <!-- Digite o código do produto -->
     <div class="form-group col-md-1">
       Cód:
-      <input type="text" class="form-control" id="cod_produto" name="cod_produto" placeholder="Código">
+      <input type="text" class="form-control" id="cod_produto" name="cod_produto" placeholder="Cód" onblur="carregaDescr()">
     </div>
 
     <!-- A descrição será de acordo com o código do produto -->
     <div class="form-group col-md-6">
       Descrição:
-      <input type="text" class="form-control" id="produto" name="produto" placeholder="Descrição" readonly>
+      <?php
+       if(isset($_POST['carregaDesc'])) {
+          $xml = simplexml_load_file('./views/abelha_rainha/produtos.xml');
+          foreach($xml->produto as $produto):
+            if($cod == $produto->codigo){
+              ?>
+              <input type="text" class="form-control" id="produto" name="produto" value="<?= $produto->descricao; ?>" readonly>
+              <?php
+            }
+          endforeach;
+        } else { ?>
+          <input type="text" class="form-control" id="produto" name="produto" placeholder="Descrição" readonly>
+       <?php } ?>
     </div>
 
     <!-- Digite a quantidade do produto -->

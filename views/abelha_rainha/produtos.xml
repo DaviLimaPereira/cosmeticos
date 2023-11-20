@@ -3,6 +3,6 @@
   <produto>
     <codigo>0001</codigo>
     <descricao>teste</descricao>
-    <preco>00,00</preco>
+    <preco>10,00</preco>
   </produto>
-</produtos>
+<produto><codigo>5461</codigo><descricao>Irresistível deo parfum feminino - 100ml</descricao><preco>89,99</preco></produto></produtos>
