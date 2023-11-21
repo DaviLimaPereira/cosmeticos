@@ -1,4 +1,4 @@
-<!-- Cadastrar e listar produtos -->
+<!-- Cadastrar um novo pedido -->
 <?php
   include_once './config.php';
 
@@ -12,10 +12,10 @@ $na = "nav-link";
 
   include CABECALHO;
 ?>
-<h1>Cosméticos Abelha Rainha - Produtos</h1>
+<h1>Cosméticos Abelha Rainha - Novo Pedido</h1>
 <hr>
 <!-- formulario para cadastrar produtos -->
-<form action="/cadastrarProdutosAR" method="POST">
+<form method="POST">
   <div class="row">
     <div class="form-group col-sm-1">
       Código: <input type="text" class="form-control form-control-sm" name="codigo" id="codigo">
@@ -27,10 +27,29 @@ $na = "nav-link";
       Preço: <input type="text" class="form-control form-control-sm" name="preco" id="preco" >
     </div>
     <div class="form-group col-sm-2 align-middle">
-      <button type="submit" class="btn btn-success">Cadastrar</button>
+      <button type="submit" name="cadastrar" class="btn btn-success">Cadastrar</button>
     </div>
   </div>
 </form>
+
+<?php
+  if(isset($_POST['cadastrar'])){
+    $cod = $_POST["codigo"];
+    $desc = $_POST["descricao"];
+    $preco = $_POST["preco"];
+
+    $xml = simplexml_load_file('./views/abelha_rainha/produtos.xml');
+
+    $obj = $xml->addChild('produto');
+    $obj->addChild('codigo', $cod);
+    $obj->addChild('descricao', $desc);
+    $obj->addChild('preco', $preco);
+
+    $xml->asXML('./views/abelha_rainha/produtos.xml');
+    
+    echo "<script type='text/javascript'>alert('Produto Cadastrado com sucesso!');</script>";
+  }
+?>
 
 <!-- table com os produtos cadastrados -->
 <table class="table table-striped table-bordered table-hover table-sm" width="100%">
@@ -45,12 +64,12 @@ $na = "nav-link";
   <tbody>
     <?php
       $xml = simplexml_load_file('./views/abelha_rainha/produtos.xml');
-      foreach($xml->produto as $produto):
+      foreach( $xml->produto as $produto ):
         echo "<tr>";
-        echo "<td class='text-center align-middle'>" . $produto->codigo . "</td>";
-        echo "<td class='text-justify align-middle'>" . $produto->descricao . "</td>";
-        echo "<td class='text-center align-middle'>" . $produto->preco . "</td>";
-        echo "<td><a href='#' class='btn btn-warning'>Editar</a></td>";
+        echo "<td class='text-center align-middle'>".$produto->codigo."</td>";
+        echo "<td class='text-justify align-middle'>".$produto->descricao."</td>";
+        echo "<td class='text-justify align-middle'>R$ ".$produto->preco."</td>";
+        echo "<td class='text-center align-middle'><a href='#' class='btn btn-warning'>Editar</a></td>";
         echo "</tr>";
       endforeach;
     ?>

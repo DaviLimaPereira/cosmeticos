@@ -1,78 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <registros>
   <registro>
-    <ano>2022</ano>
-    <vendas>
-      <venda>
-        <mes>Janeiro</mes>
-        <vendedores>
-          <vendedor>
-            <nome>Lucineia</nome>
-            <clientes>
-              <cliente>
-                <nome>Angela</nome>
-                <itens>
-                  <item>
-                    <codigo>7529</codigo>
-                    <descricao>...</descricao>
-                    <quantidade>1</quantidade>
-                    <valor_unitario>19,98</valor_unitario>
-                    <valor_total>19,98</valor_total>
-                  </item>
-                  <item>
-                    <codigo>2158</codigo>
-                    <descricao>...</descricao>
-                    <quantidade>1</quantidade>
-                    <valor_unitario>10,99</valor_unitario>
-                    <valor_total>10,99</valor_total>
-                  </item>
-                </itens>
-                <total_compra>30,97</total_compra>
-                <pagamento_cliente>OK</pagamento_cliente>
-              </cliente>
-              <cliente>
-                <nome>Andreia</nome>
-                <itens>
-                    <item>
-                      <codigo>3595</codigo>
-                      <descricao>...</descricao>
-                      <quantidade>1</quantidade>
-                      <valor_unitario>12,59</valor_unitario>
-                      <valor_total>12,59</valor_total>
-                    </item>
-                    <item>
-                      <codigo>3694</codigo>
-                      <descricao>...</descricao>
-                      <quantidade>1</quantidade>
-                      <valor_unitario>13,79</valor_unitario>
-                      <valor_total>13,79</valor_total>
-                    </item>
-                    <item>
-                      <codigo>2800</codigo>
-                      <descricao>...</descricao>
-                      <quantidade>1</quantidade>
-                      <valor_unitario>12,49</valor_unitario>
-                      <valor_total>12,49</valor_total>
-                    </item>
-                    <item>
-                      <codigo>2128</codigo>
-                      <descricao>...</descricao>
-                      <quantidade>1</quantidade>
-                      <valor_unitario>12,99</valor_unitario>
-                      <valor_total>12,99</valor_total>
-                    </item>
-                </itens>
-                <total_compra>51,86</total_compra>
-                <pagamento_cliente>OK</pagamento_cliente>
-              </cliente>
-            </clientes>
-            <total_receber>120,70</total_receber>
-            <pagamento_vendedor>OK</pagamento_vendedor>
-          </vendedor>
-        </vendedores>
-        <total_vendas>120,70</total_vendas>
-        <situacao_venda>OK</situacao_venda>
-      </venda>
-    </vendas>
+    <venda>0</venda>
+    <ano>2023</ano>
+    <mes>Janeiro</mes>
+    <vendedor>Lucineia</vendedor>
+    <cliente>Angela</cliente>
+    <total_compra>30,97</total_compra>
+    <pagamento_cliente>OK</pagamento_cliente>
   </registro>
-</registros>
+
+<registro><venda>2</venda><ano>2023</ano><mes>Janeiro</mes><vendedor>Lucineia</vendedor><cliente>Maria</cliente><total_compra>0,00</total_compra><pagamento_cliente>PENDENTE</pagamento_cliente></registro></registros>
