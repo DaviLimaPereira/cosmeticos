@@ -85,13 +85,39 @@ function gerarMes($y){
         </tr>
       </thead>
       <tbody>
-<?php
+<?php /* usar este codigo como base da logica */
   $xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
-  foreach($xml->registro as $lista):
-    if((int)$lista->ano == date('Y') and $lista->mes == $mes){
-      
+  for($i = 0; $i < count($xml->registro); $i++){
+    if((int)$xml->registro[$i]->ano == date('Y') and $xml->registro[$i]->mes == $mes){
+      $vend[] = $xml->registro[$i]->vendedor;
     }
-  endforeach;
+  }
+
+  
+  for($i = 0; $i < count($vend); $i++){
+    $parcial = 0;
+    for($x = 0; $x < count($xml->registro); $x++){
+      if(strval($xml->registro[$x]->ano) == date('Y') and strval($xml->registro[$x]->mes == $mes) and strval($xml->registro[$x]->vendedor == $vend[$i])) {
+        $parcial += $xml->registro[$x]->total_compra;
+      }
+    }
+    $total[$i] = $parcial;
+  }
+
+        for($i = 0; $i < count($vend); $i++){ 
+          echo "<tr align='middle'>";
+          echo "<td>" . $vend[$i] . "</td>";
+          echo "<td>R$ " . $total[$i] . "</td>";
+          echo "<td></td>";
+          echo "<td>";
+            echo "<form action='/exibirPedidoAbelhaRainha' method='POST'>";
+        echo "<input type='hidden' name='vendedor' value='" .  $vend[$i] . "'>";
+              echo "<input type='hidden' name='mes' value='" .  $mes . "'>";
+              echo "<button type='submit' class='btn btn-primary btn-sm'>Mais...</button>";
+            echo "</form>";
+          echo "</td>";
+          echo "</tr>";
+        }
 ?>
       </tbody>
     </table>
@@ -107,34 +133,40 @@ function gerarMes($y){
     <tr align="center">
       <th >Mês</th>
       <th >Valor</th>
-      <th >Situação</th>
       <th >Opção</th>
     </tr>
   </thead>
   <tbody>
     <?=
-        $xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
-        foreach($xml->registro as $registro):
-          if((int)$registro->ano == $ano){
-            
-              echo "<tr align='middle'>";
-              echo "<td>" . $registro->mes . "/" . $ano . "</td>";
-              
-                for( $i = 0; $i <= count($xml->registro); $i++){
-                  //if()
-                }
-              echo "<td>R$ " . $venda->total_vendas . "</td>";
-              echo "<td>";
-                echo "<form action='/exibirPedidoAbelhaRainha' method='POST'>";
-                  echo "<input type='hidden' name='mes' value='" .  $venda->mes . "'>";
-                  echo "<input type='hidden' name='ano' value='" . $ano  ."'>";
-                  echo "<button type='submit' class='btn btn-primary btn-sm'>Mais...</button>";
-               echo "</form>";
-              echo "</td>";
-              echo "</tr>";
+        $$xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
 
+      
+      for($i = 1; $i <= 12; $i++){
+        $meses[] = gerarMes($i);
+      }
+
+      for($i = 0; $i < 12; $i++){
+        $parcial = 0;
+        for($x = 0; $x < count($xml->registro); $x++){
+          if(strval($xml->registro[$x]->ano) == $ano and strval($xml->registro[$x]->mes == $meses[$i])) {
+            $parcial += $xml->registro[$x]->total_compra;
           }
-        endforeach;
+        }
+        $total[$i] = $parcial;
+      }
+      for($i = 0; $i < 12; $i++){ 
+        echo "<tr align='middle'>";
+        echo "<td>" . $meses[$i] . "/" . $ano . "</td>";
+        echo "<td>R$ " . $total[$i] . "</td>";
+        echo "<td>";
+          echo "<form action='/exibirPedidoAbelhaRainha' method='POST'>";
+            echo "<input type='hidden' name='mes' value='" .  $meses[$i] . "'>";
+            echo "<button type='submit' class='btn btn-primary btn-sm'>Mais...</button>";
+          echo "</form>";
+        echo "</td>";
+        echo "</tr>";
+      }
+
       } else {
         $ano = date('Y');
     ?>
