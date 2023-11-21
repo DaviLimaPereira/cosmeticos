@@ -138,15 +138,14 @@
         $xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
         foreach($xml->registro as $registro):
           if((int)$registro->ano == $ano){
-            foreach($registro->vendas->venda as $venda):
+            
               echo "<tr align='middle'>";
-              echo "<td>" . $venda->mes . "/" . $ano . "</td>";
-              echo "<td>R$ " . $venda->total_vendas . "</td>";
-                if($venda->situacao_venda == "PENDENTE"){
-                  echo "<td class='bg-warning text-white'><em><strong>" . $venda->situacao_venda . "</strong></em></td>";
-                } else {
-                  echo "<td class='bg-success text-white'><em><strong>" . $venda->situacao_venda . "</strong></em></td>";
+              echo "<td>" . $registro->mes . "/" . $ano . "</td>";
+              
+                for( $i = 0; $i <= count($xml->registro); $i++){
+                  if()
                 }
+              echo "<td>R$ " . $venda->total_vendas . "</td>";
               echo "<td>";
                 echo "<form action='/exibirPedidoAbelhaRainha' method='POST'>";
                   echo "<input type='hidden' name='mes' value='" .  $venda->mes . "'>";
@@ -155,8 +154,7 @@
                echo "</form>";
               echo "</td>";
               echo "</tr>";
-            
-            endforeach;
+
           }
         endforeach;
       } else {
@@ -177,7 +175,11 @@
         $xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
         foreach($xml->registro as $registro):
           if((int)$registro->ano == $ano){
-    foreach($registro->vendas->venda as $venda):
+            for($i = 1; $i <= 12; $i++){
+              if(gerarMes($i))
+            }
+          }
+       /* foreach($registro->vendas->venda as $venda):
       echo "<tr align='middle'>";
     echo "<td>" . $venda->mes . "/" . $ano . "</td>";
     echo "<td>R$ " . $venda->total_vendas . "</td>";
@@ -194,7 +196,7 @@
          echo "</form>";
         echo "</td>";
       echo "</tr>";
-    endforeach;
+    endforeach; */
           }
         endforeach;
       }

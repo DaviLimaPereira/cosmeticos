@@ -41,6 +41,7 @@ $na = "nav-link";
     $xml->asXML('./views/abelha_rainha/vendas.xml');
 
 ?> 
+<!-- informação exibida quando o vendedor e o cliente estiverem determinados -->
 <form method="POST">
   <h2>Dados Vendedor(a) / Cliente</h2>
   <!-- Informações da venda -->
@@ -115,7 +116,7 @@ $na = "nav-link";
     $codigo = $_POST['cod_produto'];
     $qtde = (int)$_POST['qtde_produto'];
 
-    global $descricao, $preco, $total;
+    global $descricao, $preco, $total, $compra;
 
     $lista = simplexml_load_file('./views/abelha_rainha/produtos.xml');
     foreach($lista->produto as $produto):
@@ -144,6 +145,7 @@ $na = "nav-link";
     foreach($xml->registro as $registro):
       if($venda == $registro->venda){
 ?>
+<!-- informações apresentadas quando um produto é inserido -->
   <form method="POST">
     <h2>Dados Vendedor(a) / Cliente</h2>
     <!-- Informações da venda -->
@@ -215,16 +217,121 @@ $na = "nav-link";
           if($venda == $registro->venda){
             echo "<tr>";
             echo "<td class='text-center align-middle'>".$registro->item."</td>";
-            echo "<td class='text-justify align-middle'>".$registro->descricao."</td>";
+            echo "<td class='lead text-justify align-middle'>".$registro->descricao."</td>";
             echo "<td class='text-center align-middle'>".$registro->quantidade."</td>";
             echo "<td class='text-center align-middle'>R$ ".$registro->preco."</td>";
             echo "<td class='text-center align-middle'>R$ ".$registro->total."</td>";
             echo "</tr>";
+            $compra += (float)$registro->total;
           }
         endforeach;
-  } else {
-    ?>
+      ?>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2" class="text-justyfi align-middle">Total:</td>
+        <td colspan="2" class="text-center align-middle">R$ <?= $compra; ?></td>
+        <td class="text-center align-middle">
+          <form method="post">
+            <input type="hidden" name="compra" value="<?= $compra; ?>">
+            <input type="hidden" name="venda" value="<?= $venda; ?>">
+            <button type="submit" class="form-control btn btn-primary" name="finalizarVenda">Salvar</button>
+          </form>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  
+ <?php 
+  } elseif(isset($_POST['finalizarVenda'])){
+  $venda = $_POST['venda'];
+  $compra = $_POST['compra'];
 
+  $lista = simplexml_load_file('./views/abelha_rainha/vendas.xml');
+
+  for($i = 0; $i < count($lista->registro); $i++) {
+    if(strval($lista->registro[$i]->venda) == $venda) {
+      $lista->registro[$i]->total_compra = $compra;
+      break;
+    }
+  }
+  $lista->asXML('./views/abelha_rainha/vendas.xml');
+
+  echo "<script>alert('Venda finalizada com sucesso!');</script>";
+?>
+<!-- informações quando carregada pela finaliza a compra -->
+<form method="POST">
+  <h2>Dados Vendedor(a) / Cliente</h2>
+  <!-- Informações da venda -->
+  <div class="form-row">
+    <!-- Selecionar o ano da venda -->
+    <div class="form-group col-md-auto">
+      Selecione o ano: 
+      <input type="text" class="form-control" id="ano" name="ano" value="<?= date('Y'); ?>">
+    </div>
+
+    <!--Selecionar o mês da venda -->
+    <div class="form-group col-md-auto">
+      Selecione o mês: 
+      <select class="form-control" id="mes" name="mes">
+        <?php
+          function gerarMes($mes){
+            switch($mes){
+              case 1:
+                return "Janeiro";
+              case 2:
+                return "Fevereiro";
+              case 3:
+                return "Março";
+              case 4:
+                return "Abril";
+              case 5:
+                return "Maio";
+              case 6:
+                return "Junho";
+              case 7:
+                return "Julho";
+              case 8:
+                return "Agosto";
+              case 9:
+                return "Setembro";
+              case 10:
+                return "Outubro";
+              case 11:
+                return "Novembro";
+              case 12:
+                return "Dezembro";
+            }
+          }
+          $m = date('m');
+          for($i = 1; $i <= $m; $i++){
+            $mes1 = gerarMes($i);
+            echo "<option value='" . $mes1 . "'>" . $mes1 . "</option>";
+          }
+        ?>
+      </select>
+    </div>
+
+    <!-- Digitar o nome do(a) vendedor(a) -->
+    <div class="form-group col-md-auto">
+      Digite o nome do(a) vendedor(a):
+      <input type="text" class="form-control" id="nome_vendedor" name="nome_vendedor" placeholder="Vendedor(a)">
+    </div>
+
+    <!-- Digitar o nome do(a) cliente -->
+    <div class="form-group col-md-auto">
+      Digite o nome do(a) cliente:
+      <input type="text" class="form-control" id="nome_cliente" name="nome_cliente" placeholder="Cliente">
+    </div>
+
+    <div class="form-group col text-rigth align-bottom">
+      <button type="submit" class="form-control btn btn-primary" name="saveInfo">Continuar</button>
+    </div>
+  </div>
+</form>
+<?php } else {
+    ?>
+<!-- informações quando carregada pela primeira vez -->
   <form method="POST">
     <h2>Dados Vendedor(a) / Cliente</h2>
     <!-- Informações da venda -->
