@@ -32,6 +32,16 @@
       require __DIR__ . '/views/abelha_rainha/produtos.html';
     }
 
+    //rota para editar o produto
+    protected function editarProdutoAR(){
+      require __DIR__ . '/views/abelha_rainha/editarProduto.html';
+    }
+
+    //rota para salvar o produto editado
+    protected function salvarProdutoAR(){
+      require __DIR__ . '/views/abelha_rainha/editarProduto.php';
+    }
+
     //--------------------------------------------------------------
     //rota para a page principal relacionada aos cosméticos da Avon
     protected function avon(){

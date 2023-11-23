@@ -1,0 +1,51 @@
+<!-- Cadastrar um novo pedido -->
+<?php
+  include_once './config.php';
+
+  $titulo = "Abelha Rainha";
+
+  $home = "nav-link";
+$ar = "nav-link active";
+$av = "nav-link";
+$eu = "nav-link";
+$na = "nav-link";
+
+  include CABECALHO;
+
+ if(isset($_POST['codigo'])){
+   $codigo = $_POST['codigo'];
+
+    $xml = simplexml_load_file('./views/abelha_rainha/produtos.xml');
+
+    foreach($xml->produto as $produto):
+      if($produto->codigo == $codigo){
+        $cod = $produto->codigo;
+        $nome = $produto->descricao;
+        $valor = $produto->preco;
+        break;
+      }
+    endforeach;
+  }
+?>
+<h1>Cosméticos Abelha Rainha - Editar Produto</h1>
+<hr>
+<!-- formulario para cadastrar produtos -->
+<form method="POST" action="/salvarProdutoAR">
+  <div class="row">
+    <div class="form-group col-sm-1">
+      Código: <input type="text" class="form-control form-control-sm" name="codigo" id="codigo" value="<?= $cod; ?>">
+    </div>
+    <div class="form-group col-sm-8">
+      Descrição: <input type="text" class="form-control form-control-sm" name="descricao" id="descricao" value="<?= $nome; ?>">
+    </div>
+    <div class="form-group col-sm-1">
+      Preço: <input type="text" class="form-control form-control-sm" name="preco" id="preco" value="<?= $valor; ?>">
+    </div>
+    <div class="form-group col-sm-2 align-middle">
+      <input type="hidden" name="cod" value="<?= $cod; ?>">
+      <button type="submit" class="btn btn-success">Salvar</button>
+    </div>
+  </div>
+</form>
+
+<?php include RODAPE; ?>

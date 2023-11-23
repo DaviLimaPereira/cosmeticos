@@ -12,7 +12,7 @@ $na = "nav-link";
 
   include CABECALHO;
 ?>
-<h1>Cosméticos Abelha Rainha - Novo Pedido</h1>
+<h1>Cosméticos Abelha Rainha - Produtos</h1>
 <hr>
 <!-- formulario para cadastrar produtos -->
 <form method="POST">
@@ -69,7 +69,12 @@ $na = "nav-link";
         echo "<td class='text-center align-middle'>".$produto->codigo."</td>";
         echo "<td class='text-justify align-middle'>".$produto->descricao."</td>";
         echo "<td class='text-justify align-middle'>R$ ".$produto->preco."</td>";
-        echo "<td class='text-center align-middle'><a href='#' class='btn btn-warning'>Editar</a></td>";
+        echo "<td class='text-center align-middle'>";
+          echo "<form method='POST' action='/editarProdutoAR'>";
+            echo "<input type='hidden' name='codigo' value='".$produto->codigo."'>";
+            echo "<button type='submit' class='form-control btn btn-warning'>Editar</button>";
+          echo "</form>";
+        echo "</td>";
         echo "</tr>";
       endforeach;
     ?>
