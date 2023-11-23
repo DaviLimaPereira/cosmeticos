@@ -10,22 +10,29 @@ $av = "nav-link";
 $eu = "nav-link";
 $na = "nav-link";
 
-  include CABECALHO;
+  include CABECALHO; 
   
-  $ano = $_POST['ano'];
-  $mes = $_POST['mes'];
-  $vendedor1 = $_POST['vendedor'];
-  $cliente1 = $_POST['cliente'];
+  $venda = $_POST['venda'];
+  $xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
+  foreach($xml->registro as $registro):
+    if($venda == $registro->venda){
+      $ano = $registro->ano;
+      $mes = $registro->mes;
+      $cliente = $registro->cliente;
+      $vendedor = $registro->vendedor;
+      $total = $registro->total_compra;
+    }
+  endforeach;
 ?>
 <div class="row">
   <div class="col">
-    <h1>Detalhes Pedido Abelha Rainha - <?= $cliente1; ?></h1>
+    <h1>Detalhes Pedido Abelha Rainha - <?= $cliente; ?></h1>
   </div>
 </div>
 <hr>
 <div class="row">
   <div class="col-sm-auto">
-    <h2>Vendedor(a): <?= $vendedor1; ?></h2>
+    <h2>Vendedor(a): <?= $vendedor; ?></h2>
   </div>
   <div class="col-sm-auto">
     <h2>Ref.: <?= $mes . "/" . $ano; ?></h2>
@@ -44,40 +51,27 @@ $na = "nav-link";
   </thead>
   <tbody>
     <?php
-      $xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
+      $xml = simplexml_load_file('./views/abelha_rainha/itensVenda.xml');
       foreach($xml->registro as $registro):
-        if($ano == $registro->ano){
-          foreach($registro->vendas->venda as $venda):
-            if($mes == $venda->mes){
-              foreach($venda->vendedores->vendedor as $vendedor):
-                if($vendedor1 == $vendedor->nome){
-                  foreach($vendedor->clientes->cliente as $cliente):
-                    if($cliente1 == $cliente->nome){
-                      foreach($cliente->itens->item as $item):
+        if($venda == $registro->venda){
     ?>
     <tr>
-      <td><?= $item->codigo; ?></td>
-      <td><?= $item->descricao; ?></td>
-      <td align="center"><?= $item->quantidade; ?></td>
-      <td align="center">R$ <?= $item->valor_unitario; ?></td>
-      <td align="center">R$ <?= $item->valor_total; ?></td>
-    </tr>
-    <?php
-                      endforeach;
-                      echo "<tr>";
-                      echo "<td colspan='4'>Total da compra:</td>";
-                      echo "<td>R$ " . $cliente->total_compra . "</td>";
-                      echo "</tr>";
-                    }
-                  endforeach;
-                }
-              endforeach;
-            }
-          endforeach;
-        }
-      endforeach;
-    ?>
+      <td><?= $registro->item; ?></td>
+      <td><?= $registro->descricao; ?></td>
+      <td align="center"><?= $registro->quantidade; ?></td>
+      <td align="center">R$ <?= $registro->preco; ?></td>
+      <td align="center">R$ <?= $registro->total; ?></td>
+    </tr> 
+    <?php }
+    endforeach; ?>
   </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4" align="right">Total da compra:</td>
+      <td align="right">R$ <?= $total; ?></td>
+    </tr>
+    </tr>
+  </tfoot>
 </table>
 
 <?= include RODAPE; ?>

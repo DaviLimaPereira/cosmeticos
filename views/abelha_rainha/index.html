@@ -111,8 +111,8 @@ function gerarMes($y){
           echo "<td></td>";
           echo "<td>";
             echo "<form action='/exibirPedidoAbelhaRainha' method='POST'>";
-        echo "<input type='hidden' name='vendedor' value='" .  $vend[$i] . "'>";
               echo "<input type='hidden' name='mes' value='" .  $mes . "'>";
+              echo "<input type='hidden' name='ano' value='" .  date('Y') . "'>";
               echo "<button type='submit' class='btn btn-primary btn-sm'>Mais...</button>";
             echo "</form>";
           echo "</td>";
@@ -203,6 +203,7 @@ function gerarMes($y){
           echo "<td>R$ " . $total[$i] . "</td>";
           echo "<td>";
             echo "<form action='/exibirPedidoAbelhaRainha' method='POST'>";
+              echo "<input type='hidden' name='ano' value='" .  $ano . "'>";
               echo "<input type='hidden' name='mes' value='" .  $meses[$i] . "'>";
               echo "<button type='submit' class='btn btn-primary btn-sm'>Mais...</button>";
             echo "</form>";

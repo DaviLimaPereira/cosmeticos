@@ -1,3 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <registros>
-<registro><venda>2</venda><ano>2023</ano><mes>Novembro</mes><vendedor>Lucineia</vendedor><cliente>Maria</cliente><total_compra>29.97</total_compra><pagamento_cliente>PENDENTE</pagamento_cliente></registro><registro><venda>3</venda><ano>2023</ano><mes>Janeiro</mes><vendedor>Lucineia</vendedor><cliente>Sandra</cliente><total_compra>44.95</total_compra><pagamento_cliente>PENDENTE</pagamento_cliente></registro><registro><venda>4</venda><ano>2023</ano><mes>Novembro</mes><vendedor>Davi</vendedor><cliente>Manuella</cliente><total_compra>9.99</total_compra><pagamento_cliente>PENDENTE</pagamento_cliente></registro></registros>
+<registro/>
+<registro><venda>2</venda><ano>2023</ano><mes>Novembro</mes><vendedor>Neusa</vendedor><cliente>Beatriz</cliente><total_compra>0,00</total_compra><pagamento_cliente>PENDENTE</pagamento_cliente></registro><registro><venda>3</venda><ano>2023</ano><mes>Novembro</mes><vendedor>Lucineia</vendedor><cliente>Maria</cliente><total_compra>206.95</total_compra><pagamento_cliente>PENDENTE</pagamento_cliente></registro></registros>

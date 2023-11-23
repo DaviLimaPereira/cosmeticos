@@ -12,8 +12,9 @@ $na = "nav-link";
 
   include CABECALHO;
 
-    $ano = $_POST['ano'];
-    $mes = $_POST['mes'];
+$ano = $_POST['ano'];
+$mes = $_POST['mes'];
+    
 ?>
 <div class="row">
   <div class="col">
@@ -24,47 +25,64 @@ $na = "nav-link";
 <table class="table table-sm table-striped table-bordered">
   <thead class="thead-dark">
     <tr>
-      <th>Vendedor(a)</th>
-      <th>Cliente</th>
-      <th>Valor</th>
+      <th class="col-md-3">Vendedor(a)</th>
+      <th class="col-md-3">Cliente</th>
+      <th class="col-md-3">Valor</th>
       <th colspan="2">Situação</th>
     </tr>
   </thead>
   <tbody>
-    <?= $xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
-    foreach($xml->registro as $registro):
-      if($ano == $registro->ano){
-        foreach($registro->vendas->venda as $venda):
-          if($mes == $venda->mes){
-            foreach($venda->vendedores->vendedor as $vendedor):
-              $nome_vendedor = $vendedor->nome; 
-              foreach($vendedor->clientes->cliente as $cliente):
-                echo "<tr>";
-                  echo "<td>" . $nome_vendedor . "</td>";
-                  echo "<td>" . $cliente->nome . "</td>";
-                  echo "<td>R$ " . $cliente->total_compra . "</td>";
-                  echo "<td>" . $cliente->pagamento_cliente . "</td>";
-                  echo "<td>";
-    echo "<form action='/exibirDetalhesPedidoAbelhaRainha' method='POST'>";
-        echo "<input type='hidden' name='mes' value='" .  $venda->mes . "'>";
-        echo "<input type='hidden' name='ano' value='" . $ano  ."'>";
-        echo "<input type='hidden' name='vendedor' value='" . $vendedor->nome  ."'>";
-        echo "<input type='hidden' name='cliente' value='" . $cliente->nome  ."'>";
-        echo "<button type='submit' class='btn btn-primary btn-sm'>Mais...</button>";
-     echo "</form>";
-                  echo "</td>";
-                echo "</tr>";
-              endforeach;
-            endforeach;
-          }
+  <?php 
+    $xml = simplexml_load_file('./views/abelha_rainha/vendas.xml');
+    $total = 0;
+    if(isset($_POST['vendedor'])){
+      $vendedor = $_POST['vendedor'];
+      foreach($xml->registro as $registro):
+        if($ano == $registro->ano and $mes == $registro->mes and $vendedor == $registro->vendedor){
           echo "<tr>";
-            echo "<td colspan='3'>Total do mês:</td>";
-            echo "<td colspan='2'>R$ " . $venda->total_vendas . "</td>";
+          echo "<td>" . $vendedor . "</td>";
+          echo "<td>" . $registro->cliente . "</td>";
+          echo "<td>R$ " . $registro->total_compra . "</td>";
+          echo "<td>" . $registro->pagamento_cliente . "</td>";
+          echo "<td>";
+          echo "<form action='/exibirDetalhesPedidoAbelhaRainha' method='POST'>";
+          echo "<input type='hidden' name='mes' value='" .  $mes . "'>";
+          echo "<input type='hidden' name='ano' value='" . $ano  ."'>";
+          echo "<input type='hidden' name='vendedor' value='" . $vendedor ."'>";
+          echo "<input type='hidden' name='cliente' value='" . $registro->cliente ."'>";
+          echo "<button type='submit' class='btn btn-primary'>Mais...</button>";
+          echo "</form>";
+          echo "</td>";
           echo "</tr>";
-        endforeach;
-      }
-    endforeach;
-    ?>
+          $total += $registro->total_compra;
+        }
+      endforeach;
+    } else {
+      foreach($xml->registro as $registro):
+        if($ano == $registro->ano and $mes == $registro->mes){
+          echo "<tr>";
+          echo "<td>" . $registro->vendedor . "</td>";
+          echo "<td>" . $registro->cliente . "</td>";
+          echo "<td>R$ " . $registro->total_compra . "</td>";
+          echo "<td>" . $registro->pagamento_cliente . "</td>";
+          echo "<td>";
+          echo "<form action='/exibirDetalhesPedidoAbelhaRainha' method='POST'>";
+          echo "<input type='hidden' name='venda' value='" . $registro->venda ."'>";
+          echo "<button type='submit' class='btn btn-primary'>Mais...</button>";
+          echo "</form>";
+          echo "</td>";
+          echo "</tr>";
+          $total += $registro->total_compra;
+        }
+      endforeach;
+    }
+  ?>
   </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4">Total</td>
+      <td>R$ <?= $total; ?></td>
+    </tr>
+  </tfoot>
 </table>
 <?= include RODAPE; ?>
