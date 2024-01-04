@@ -1,0 +1,222 @@
+<!-- apresentar as vendas realizadas mes a mes e o valor a receber no mes vigente. -->
+
+<?php
+  include_once './config.php';
+
+  $titulo = "O Boticário";
+
+  $home = "nav-link";
+  $ar = "nav-link";
+  $av = "nav-link";
+  $bo = "nav-link active";
+  $eu = "nav-link";
+  $na = "nav-link";
+
+  include CABECALHO;
+
+function gerarMes($y){
+  switch($y){
+    case 1:
+      return "Janeiro";
+    case 2:
+      return "Fevereiro";
+    case 3:
+      return "Março";
+    case 4:
+      return "Abril";
+    case 5:
+      return "Maio";
+    case 6:
+      return "Junho";
+    case 7:
+      return "Julho";
+    case 8:
+      return "Agosto";
+    case 9:
+      return "Setembro";
+    case 10:
+      return "Outubro";
+    case 11:
+      return "Novembro";
+    default:
+      return "Dezembro";
+  }
+}
+  
+?>
+<div class="row">
+  <div class="col-sm-auto">
+<h1>Cosméticos Boticário</h1>
+  </div>
+  <div class="col" align="right">
+    <a href="/produtosBoticario" class="btn btn-primary" type="button">Produtos</a>
+    <a href="/novoPedidoBoticario" class="btn btn-primary" type="button">Cadastrar Pedido</a>
+  </div>
+</div>
+<hr>
+
+<form class="form-inline" method="POST" action="/boticario">
+  <div class="form-group col-sm-auto">
+    <p>Selecione o ano:</p>
+  </div>
+  <div class="form-group col-sm-auto">
+    <select class="form-control" name="ano">
+      <?php
+        for($i = date('Y'); $i > 2020; $i--){
+          echo "<option value='" . $i . "'>" . $i . "</option>";
+        }
+      ?>
+    </select>
+  </div>
+  <button type="submit" class="btn btn-success mb-2">Listar</button>
+</form>
+<hr>
+<div class="row">
+  <div class="col-md-6">
+    <h2 align="center">Valores a Receber: 
+      <?php  $mes = gerarMes(date('m')); echo $mes . "/" . date('Y'); ?>
+    </h2>
+    <table class="table table-sm table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr align="center">
+          <th >Vendedor(a)</th>
+          <th >Valor</th>
+          <th >Situação</th>
+          <th >Opção</th>
+        </tr>
+      </thead>
+      <tbody>
+<?php /* usar este codigo como base da logica */
+  $xml = simplexml_load_file('./views/boticario/vendas.xml');
+  for($i = 0; $i < count($xml->registro); $i++){
+    if((int)$xml->registro[$i]->ano == date('Y') and $xml->registro[$i]->mes == $mes){
+      $vend[] = $xml->registro[$i]->vendedor;
+    }
+  }
+
+  
+  for($i = 0; $i < count($vend); $i++){
+    $parcial = 0;
+    for($x = 0; $x < count($xml->registro); $x++){
+      if(strval($xml->registro[$x]->ano) == date('Y') and strval($xml->registro[$x]->mes == $mes) and strval($xml->registro[$x]->vendedor == $vend[$i])) {
+        $parcial += $xml->registro[$x]->total_compra;
+      }
+    }
+    $total[$i] = $parcial;
+  }
+
+        for($i = 0; $i < count($vend); $i++){ 
+          echo "<tr align='middle'>";
+          echo "<td>" . $vend[$i] . "</td>";
+          echo "<td>R$ " . $total[$i] . "</td>";
+          echo "<td></td>";
+          echo "<td>";
+            echo "<form action='/exibirPedidoBoticario' method='POST'>";
+              echo "<input type='hidden' name='mes' value='" .  $mes . "'>";
+              echo "<input type='hidden' name='ano' value='" .  date('Y') . "'>";
+              echo "<button type='submit' class='btn btn-primary btn-sm'>Mais...</button>";
+            echo "</form>";
+          echo "</td>";
+          echo "</tr>";
+        }
+?>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <?php
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+      $ano = $_POST['ano'];
+    ?>
+<h2 align="center">Vendas realizadas em <?= $ano; ?></h2>
+<table class="table table-sm table-bordered table-hover">
+  <thead class="thead-dark">
+    <tr align="center">
+      <th >Mês</th>
+      <th >Valor</th>
+      <th >Opção</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?=
+        $$xml = simplexml_load_file('./views/boticario/vendas.xml');
+
+      
+      for($i = 1; $i <= 12; $i++){
+        $meses[] = gerarMes($i);
+      }
+
+      for($i = 0; $i < 12; $i++){
+        $parcial = 0;
+        for($x = 0; $x < count($xml->registro); $x++){
+          if(strval($xml->registro[$x]->ano) == $ano and strval($xml->registro[$x]->mes == $meses[$i])) {
+            $parcial += $xml->registro[$x]->total_compra;
+          }
+        }
+        $total[$i] = $parcial;
+      }
+      for($i = 0; $i < 12; $i++){ 
+        echo "<tr align='middle'>";
+        echo "<td>" . $meses[$i] . "/" . $ano . "</td>";
+        echo "<td>R$ " . $total[$i] . "</td>";
+        echo "<td>";
+          echo "<form action='/exibirPedidoBoticario' method='POST'>";
+            echo "<input type='hidden' name='mes' value='" .  $meses[$i] . "'>";
+            echo "<button type='submit' class='btn btn-primary btn-sm'>Mais...</button>";
+          echo "</form>";
+        echo "</td>";
+        echo "</tr>";
+      }
+
+      } else {
+        $ano = date('Y');
+    ?>
+    <h2 align="center">Vendas realizadas em <?= $ano; ?></h2>
+    <table class="table table-sm table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr align="center">
+          <th >Mês</th>
+          <th >Valor</th>
+          <th >Opção</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        $xml = simplexml_load_file('./views/boticario/vendas.xml');
+
+        $contar = date('m');
+        for($i = 1; $i <= $contar; $i++){
+          $meses[] = gerarMes($i);
+        }
+
+        for($i = 0; $i < $contar; $i++){
+          $parcial = 0;
+          for($x = 0; $x < count($xml->registro); $x++){
+            if(strval($xml->registro[$x]->ano) == $ano and strval($xml->registro[$x]->mes == $meses[$i])) {
+              $parcial += $xml->registro[$x]->total_compra;
+            }
+          }
+          $total[$i] = $parcial;
+        }
+        for($i = 0; $i < $contar-1; $i++){ 
+          echo "<tr align='middle'>";
+          echo "<td>" . $meses[$i] . "/" . $ano . "</td>";
+          echo "<td>R$ " . $total[$i] . "</td>";
+          echo "<td>";
+            echo "<form action='/exibirPedidoBoticario' method='POST'>";
+              echo "<input type='hidden' name='ano' value='" .  $ano . "'>";
+              echo "<input type='hidden' name='mes' value='" .  $meses[$i] . "'>";
+              echo "<button type='submit' class='btn btn-primary btn-sm'>Mais...</button>";
+            echo "</form>";
+          echo "</td>";
+          echo "</tr>";
+        }
+      }
+
+    ?>
+  </tbody>
+</table>
+  </div>
+ 
+</div>
+<?= include RODAPE; ?>

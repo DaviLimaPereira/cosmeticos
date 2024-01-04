@@ -48,6 +48,43 @@
       require __DIR__ . '/views/avon/index.html';
     }
 
+    //--------------------------------------------------------------
+    //rota para a page principal relacionada aos cosméticos do Boticario
+    protected function boticario(){
+      require __DIR__ . '/views/boticario/index.html';
+    }
+
+
+    //rota para cadastrar um novo pedido da Boticario
+    protected function novoPedidoBoticario(){
+      require __DIR__ . '/views/boticario/novoPedido.html';
+    }
+
+    //rota para exibir pedido da Boticario
+    protected function exibirPedidoBoticario(){
+      require __DIR__ . '/views/boticario/exibirPedido.html';
+    }
+
+    //rota para exibir detalhes do pedido da Boticario
+    protected function exibirDetalhesPedidoBoticario(){
+      require __DIR__ . '/views/boticario/exibirDetalhes.html';
+    }
+
+    //rota para os produtos da Boticario
+    protected function produtosBoticario(){
+      require __DIR__ . '/views/boticario/produtos.html';
+    }
+
+    //rota para editar o produto
+    protected function editarProdutoBO(){
+      require __DIR__ . '/views/boticario/editarProduto.html';
+    }
+
+    //rota para salvar o produto editado
+    protected function salvarProdutoBO(){
+      require __DIR__ . '/views/boticario/editarProduto.php';
+    }
+
     //---------------------------------------------------------------
     //rota para a page principal relacionada aos cosméticos da Eudora
     protected function eudora(){

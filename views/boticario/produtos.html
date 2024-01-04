@@ -1,0 +1,85 @@
+<!-- Cadastrar um novo pedido -->
+<?php
+  include_once './config.php';
+
+  $titulo = "Abelha Rainha";
+
+  $home = "nav-link";
+$ar = "nav-link";
+$av = "nav-link";
+$bo = "nav-link active";
+$eu = "nav-link";
+$na = "nav-link";
+
+  include CABECALHO;
+?>
+<h1>Cosméticos boticário - Produtos</h1>
+<hr>
+<!-- formulario para cadastrar produtos -->
+<form method="POST">
+  <div class="row">
+    <div class="form-group col-sm-1">
+      Código: <input type="text" class="form-control form-control-sm" name="codigo" id="codigo">
+    </div>
+    <div class="form-group col-sm-8">
+      Descrição: <input type="text" class="form-control form-control-sm" name="descricao" id="descricao">
+    </div>
+    <div class="form-group col-sm-1">
+      Preço: <input type="text" class="form-control form-control-sm" name="preco" id="preco" >
+    </div>
+    <div class="form-group col-sm-2 align-middle">
+      <button type="submit" name="cadastrar" class="btn btn-success">Cadastrar</button>
+    </div>
+  </div>
+</form>
+
+<?php
+  if(isset($_POST['cadastrar'])){
+    $cod = $_POST["codigo"];
+    $desc = $_POST["descricao"];
+    $preco = $_POST["preco"];
+
+    $xml = simplexml_load_file('./views/boticario/produtos.xml');
+
+    $obj = $xml->addChild('produto');
+    $obj->addChild('codigo', $cod);
+    $obj->addChild('descricao', $desc);
+    $obj->addChild('preco', $preco);
+
+    $xml->asXML('./views/boticario/produtos.xml');
+    
+    echo "<script type='text/javascript'>alert('Produto Cadastrado com sucesso!');</script>";
+  }
+?>
+
+<!-- table com os produtos cadastrados -->
+<table class="table table-striped table-bordered table-hover table-sm" width="100%">
+  <thead class="thead-dark">
+    <tr>
+      <th class="text-center align-middle" width="5%">Código</th>
+      <th class="text-center align-middle" width="81%">Descrição</th>
+      <th class="text-center align-middle" width="9%">Preço</th>
+      <th class="text-center align-middle" width="5%">Opção</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+      $xml = simplexml_load_file('./views/boticario/produtos.xml');
+      foreach( $xml->produto as $produto ):
+        echo "<tr>";
+        echo "<td class='text-center align-middle'>".$produto->codigo."</td>";
+        echo "<td class='text-justify align-middle'>".$produto->descricao."</td>";
+        echo "<td class='text-justify align-middle'>R$ ".$produto->preco."</td>";
+        echo "<td class='text-center align-middle'>";
+          echo "<form method='POST' action='/editarProdutoBO'>";
+            echo "<input type='hidden' name='codigo' value='".$produto->codigo."'>";
+            echo "<button type='submit' class='form-control btn btn-warning'>Editar</button>";
+          echo "</form>";
+        echo "</td>";
+        echo "</tr>";
+      endforeach;
+    ?>
+  </tbody>
+</table>
+
+<?= include RODAPE; ?>

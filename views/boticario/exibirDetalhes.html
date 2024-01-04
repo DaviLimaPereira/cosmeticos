@@ -1,0 +1,78 @@
+<!-- Exibe os detalhes do pedido da cliente -->
+<?php
+  include_once './config.php';
+
+  $titulo = "O Boticário";
+
+  $home = "nav-link";
+$ar = "nav-link";
+$av = "nav-link";
+$bo = "nav-link active";
+$eu = "nav-link";
+$na = "nav-link";
+
+  include CABECALHO; 
+  
+  $venda = $_POST['venda'];
+  $xml = simplexml_load_file('./views/boticario/vendas.xml');
+  foreach($xml->registro as $registro):
+    if($venda == $registro->venda){
+      $ano = $registro->ano;
+      $mes = $registro->mes;
+      $cliente = $registro->cliente;
+      $vendedor = $registro->vendedor;
+      $total = $registro->total_compra;
+    }
+  endforeach;
+?>
+<div class="row">
+  <div class="col">
+    <h1>Detalhes Pedido Boticário - <?= $cliente; ?></h1>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-sm-auto">
+    <h2>Vendedor(a): <?= $vendedor; ?></h2>
+  </div>
+  <div class="col-sm-auto">
+    <h2>Ref.: <?= $mes . "/" . $ano; ?></h2>
+  </div>
+</div>
+<hr>
+<table width="100%" border="5" class="table table-sm table-bordered">
+  <thead class="thead-dark">
+    <tr align="center">
+      <th width="5%">Cód</th>
+      <th width="70%">Descrição</th>
+      <th width="5%">Qtde</th>
+      <th width="10%">Valor Unit.</th>
+      <th width="10%">Valor Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+      $xml = simplexml_load_file('./views/boticario/itensVenda.xml');
+      foreach($xml->registro as $registro):
+        if($venda == $registro->venda){
+    ?>
+    <tr>
+      <td><?= $registro->item; ?></td>
+      <td><?= $registro->descricao; ?></td>
+      <td align="center"><?= $registro->quantidade; ?></td>
+      <td align="center">R$ <?= $registro->preco; ?></td>
+      <td align="center">R$ <?= $registro->total; ?></td>
+    </tr> 
+    <?php }
+    endforeach; ?>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4" align="right">Total da compra:</td>
+      <td align="right">R$ <?= $total; ?></td>
+    </tr>
+    </tr>
+  </tfoot>
+</table>
+
+<?= include RODAPE; ?>

@@ -1,0 +1,89 @@
+<!-- Exibe o pedido de acordo com a solicitação na page index -->
+<?php
+  include_once './config.php';
+
+  $titulo = "O Boticário";
+
+  $home = "nav-link";
+$ar = "nav-link";
+$av = "nav-link";
+$bo = "nav-link active";
+$eu = "nav-link";
+$na = "nav-link";
+
+  include CABECALHO;
+
+$ano = $_POST['ano'];
+$mes = $_POST['mes'];
+    
+?>
+<div class="row">
+  <div class="col">
+    <h1>Pedido Boticário - <?=  $mes . "/" . $ano; ?></h1>
+  </div>
+</div>
+<hr>
+<table class="table table-sm table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th class="col-md-3">Vendedor(a)</th>
+      <th class="col-md-3">Cliente</th>
+      <th class="col-md-3">Valor</th>
+      <th colspan="2">Situação</th>
+    </tr>
+  </thead>
+  <tbody>
+  <?php 
+    $xml = simplexml_load_file('./views/boticario/vendas.xml');
+    $total = 0;
+    if(isset($_POST['vendedor'])){
+      $vendedor = $_POST['vendedor'];
+      foreach($xml->registro as $registro):
+        if($ano == $registro->ano and $mes == $registro->mes and $vendedor == $registro->vendedor){
+          echo "<tr>";
+          echo "<td>" . $vendedor . "</td>";
+          echo "<td>" . $registro->cliente . "</td>";
+          echo "<td>R$ " . $registro->total_compra . "</td>";
+          echo "<td>" . $registro->pagamento_cliente . "</td>";
+          echo "<td>";
+          echo "<form action='/exibirDetalhesPedidoBoticario' method='POST'>";
+          echo "<input type='hidden' name='mes' value='" .  $mes . "'>";
+          echo "<input type='hidden' name='ano' value='" . $ano  ."'>";
+          echo "<input type='hidden' name='vendedor' value='" . $vendedor ."'>";
+          echo "<input type='hidden' name='cliente' value='" . $registro->cliente ."'>";
+          echo "<button type='submit' class='btn btn-primary'>Mais...</button>";
+          echo "</form>";
+          echo "</td>";
+          echo "</tr>";
+          $total += $registro->total_compra;
+        }
+      endforeach;
+    } else {
+      foreach($xml->registro as $registro):
+        if($ano == $registro->ano and $mes == $registro->mes){
+          echo "<tr>";
+          echo "<td>" . $registro->vendedor . "</td>";
+          echo "<td>" . $registro->cliente . "</td>";
+          echo "<td>R$ " . $registro->total_compra . "</td>";
+          echo "<td>" . $registro->pagamento_cliente . "</td>";
+          echo "<td>";
+          echo "<form action='/exibirDetalhesPedidoBoticario' method='POST'>";
+          echo "<input type='hidden' name='venda' value='" . $registro->venda ."'>";
+          echo "<button type='submit' class='btn btn-primary'>Mais...</button>";
+          echo "</form>";
+          echo "</td>";
+          echo "</tr>";
+          $total += $registro->total_compra;
+        }
+      endforeach;
+    }
+  ?>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="4">Total</td>
+      <td>R$ <?= $total; ?></td>
+    </tr>
+  </tfoot>
+</table>
+<?= include RODAPE; ?>
